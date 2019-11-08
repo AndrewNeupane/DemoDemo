@@ -4,14 +4,16 @@ using ItSutra.SecondDemo.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItSutra.SecondDemo.Migrations
 {
     [DbContext(typeof(SecondDemoDbContext))]
-    partial class SecondDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191108200833_Match")]
+    partial class Match
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1352,7 +1354,7 @@ namespace ItSutra.SecondDemo.Migrations
                     b.Property<byte>("State")
                         .HasColumnType("tinyint");
 
-                    b.Property<int?>("WinningPlayerId")
+                    b.Property<int>("WinningPlayerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1667,7 +1669,9 @@ namespace ItSutra.SecondDemo.Migrations
 
                     b.HasOne("ItSutra.SecondDemo.GameModel.Player", "WinningPlayer")
                         .WithMany()
-                        .HasForeignKey("WinningPlayerId");
+                        .HasForeignKey("WinningPlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ItSutra.SecondDemo.MultiTenancy.Tenant", b =>

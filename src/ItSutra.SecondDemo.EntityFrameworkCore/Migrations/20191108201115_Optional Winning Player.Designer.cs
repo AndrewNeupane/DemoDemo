@@ -4,14 +4,16 @@ using ItSutra.SecondDemo.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItSutra.SecondDemo.Migrations
 {
     [DbContext(typeof(SecondDemoDbContext))]
-    partial class SecondDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191108201115_Optional Winning Player")]
+    partial class OptionalWinningPlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

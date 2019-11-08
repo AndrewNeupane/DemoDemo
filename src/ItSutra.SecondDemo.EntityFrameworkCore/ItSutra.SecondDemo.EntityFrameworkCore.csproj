@@ -11,6 +11,14 @@
     <Compile Remove="Migrations\20180726102624_Upgrade_ABP_380.cs" />
     <Compile Remove="Migrations\20180927062408_test.cs" />
     <Compile Remove="Migrations\20190111071724_Upgraded_To_Abp_v4_1_0.cs" />
+    <Compile Remove="Migrations\20191108155150_Model match added.cs" />
+    <Compile Remove="Migrations\20191108155150_Model match added.Designer.cs" />
+    <Compile Remove="Migrations\20191108180802_Cascade-delete-eliminated.cs" />
+    <Compile Remove="Migrations\20191108180802_Cascade-delete-eliminated.Designer.cs" />
+    <Compile Remove="Migrations\20191108200224_Match.cs" />
+    <Compile Remove="Migrations\20191108200224_Match.Designer.cs" />
+    <Compile Remove="Migrations\20191108200729_Match.cs" />
+    <Compile Remove="Migrations\20191108200729_Match.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
