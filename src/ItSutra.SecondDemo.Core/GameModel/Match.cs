@@ -9,9 +9,9 @@ namespace ItSutra.SecondDemo.GameModel
 {
     public class Match : FullAuditedEntity
     {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public TimeSpan Duration { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
+        public TimeSpan? Duration { get; set; }
         public MatchState State { get; set; }
         public int FirstPlayerId { get; set; }
         public int SecondPlayerId { get; set; }
@@ -26,6 +26,8 @@ namespace ItSutra.SecondDemo.GameModel
         [ForeignKey(nameof(WinningPlayerId))]
         public virtual Player WinningPlayer { get; set; }
 
+        public virtual ICollection<MatchMove> MatchMoves{ get; set; }
+
         public Match()
         {
             if (State == 0)
@@ -38,6 +40,7 @@ namespace ItSutra.SecondDemo.GameModel
             }
 
             Duration = (EndTime - StartTime);
+            MatchMoves = new List<MatchMove>();
         }
     }
     public enum MatchState : byte

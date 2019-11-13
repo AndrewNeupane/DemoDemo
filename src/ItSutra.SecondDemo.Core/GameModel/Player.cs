@@ -26,6 +26,6 @@ namespace ItSutra.SecondDemo.GameModel
         public int Win { get; set; }
         public int Loss { get; set; }
         public int Ties { get; set; }
-        public int Score { get; set; }
+        public double Score { get; set; }
     }
 }

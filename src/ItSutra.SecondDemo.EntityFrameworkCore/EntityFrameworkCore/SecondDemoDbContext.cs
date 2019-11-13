@@ -13,6 +13,7 @@ namespace ItSutra.SecondDemo.EntityFrameworkCore
         /* Define a DbSet for each entity of the application */
         public DbSet<Player> Players { get; set; }
         public DbSet<Match> Matches { get; set; }
+        public DbSet<MatchMove> MatchMoves { get; set; }
 
         public SecondDemoDbContext(DbContextOptions<SecondDemoDbContext> options)
             : base(options)
@@ -45,6 +46,11 @@ namespace ItSutra.SecondDemo.EntityFrameworkCore
 
 
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
         }
     }
 }

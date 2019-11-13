@@ -4,14 +4,16 @@ using ItSutra.SecondDemo.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItSutra.SecondDemo.Migrations
 {
     [DbContext(typeof(SecondDemoDbContext))]
-    partial class SecondDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191108214053_Model MatchMove")]
+    partial class ModelMatchMove
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1325,10 +1327,10 @@ namespace ItSutra.SecondDemo.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan?>("Duration")
+                    b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<DateTime?>("EndTime")
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("FirstPlayerId")
@@ -1346,7 +1348,7 @@ namespace ItSutra.SecondDemo.Migrations
                     b.Property<int>("SecondPlayerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("StartTime")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<byte>("State")
@@ -1458,8 +1460,8 @@ namespace ItSutra.SecondDemo.Migrations
                     b.Property<int>("PhoneNumber")
                         .HasColumnType("int");
 
-                    b.Property<double>("Score")
-                        .HasColumnType("float");
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
 
                     b.Property<int>("Ties")
                         .HasColumnType("int");

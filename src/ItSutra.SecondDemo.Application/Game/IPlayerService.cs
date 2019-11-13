@@ -15,6 +15,6 @@ namespace ItSutra.SecondDemo.Game
         Task CreatePlayer(PlayerListItem input);
         Task DeletePlayer(int id);
         Task UpdatePlayer(PlayerListItem input);
-        Task<PlayerListItem> GetPlayerById(int input);
+        Task<PlayerListItem> GetPlayerById(int id);
     }
 }

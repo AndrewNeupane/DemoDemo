@@ -44,7 +44,7 @@ namespace ItSutra.SecondDemo.Game
         {
             if (await _playerRepository.GetAll().AnyAsync(x => x.Email == input.Email))
                 throw new UserFriendlyException("Already Existed");
-
+             
             // validation for age verification      
             await _playerRepository.InsertAsync(ObjectMapper.Map<Player>(input));
         }
@@ -62,7 +62,6 @@ namespace ItSutra.SecondDemo.Game
                .ToListAsync();
 
             return new ListResultDto<PlayerListItem>(ObjectMapper.Map<List<PlayerListItem>>(playerLists));
-
         }
         public async Task<PlayerListItem> GetPlayerById(int id) => ObjectMapper.Map<PlayerListItem>(await _playerRepository.GetAsync(id));
 
@@ -70,8 +69,7 @@ namespace ItSutra.SecondDemo.Game
         //  whatever changes you make will automatically get pushed to the db
         public async Task UpdatePlayer(PlayerListItem input)
         {
-            var player = await _playerRepository.GetAsync(input.Id);
-            var updatePlayer = player; // ObjectMapper.Map<Player>(input);
+            var updatePlayer = await _playerRepository.GetAsync(input.Id);
             updatePlayer.FirstName = input.FirstName;
             updatePlayer.LastName = input.LastName;
             //updatePlayer.PhoneNumber = input.PhoneNumber;
