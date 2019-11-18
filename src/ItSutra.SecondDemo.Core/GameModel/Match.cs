@@ -23,7 +23,7 @@ namespace ItSutra.SecondDemo.GameModel
 
         //public virtual ICollection<Player> Players { get; set; }
 
-        [ForeignKey(nameof(WinningPlayerId))]
+        //[ForeignKey(nameof(WinningPlayerId))]
         public virtual Player WinningPlayer { get; set; }
 
         public virtual ICollection<MatchMove> MatchMoves{ get; set; }

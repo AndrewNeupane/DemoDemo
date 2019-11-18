@@ -1,11 +1,14 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
+using ItSutra.SecondDemo.GameModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ItSutra.SecondDemo.GameMoves.Dto
+namespace ItSutra.SecondDemo.GameMatches.Dto
 {
-    public class MoveItem : EntityDto
+    [AutoMap(typeof(MatchMove))]
+    public class MovesData : EntityDto
     {
         public int MatchId { get; set; }
         public int Location { get; set; }

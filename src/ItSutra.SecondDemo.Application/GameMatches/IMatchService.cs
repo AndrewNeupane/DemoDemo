@@ -12,7 +12,10 @@ namespace ItSutra.SecondDemo.GameMatches
     public interface IMatchService : IApplicationService
     {
         Task CreateMatch(CreateMatch input);
-        Task<MatchResult> EndMatch(EndMatch input);
+        Task EndMatch(EndMatch input);
         Task<ListResultDto<MatchList>> GetMatchList(GetAllMatch input);
+        Task<MatchList> GetMatchById(int id);
+        Task CreateMove(MovesData input);
+        Task<MoveList> GetMovesByMatchId(MovesData input);
     }
 }

@@ -1,14 +1,13 @@
-﻿using Abp.Domain.Entities.Auditing;
+﻿using Abp.Application.Services.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ItSutra.SecondDemo.GameModel
+namespace ItSutra.SecondDemo.GameMatches.Dto
 {
-    public class MatchMove : FullAuditedEntity
+    public class MoveList : EntityDto
     {
         public int MatchId { get; set; }
-        public int PlayerId { get; set; }
         public int Location { get; set; }
     }
 }

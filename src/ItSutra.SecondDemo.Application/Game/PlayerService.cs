@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
+using Abp.Linq.Extensions;
 using Abp.UI;
 using AutoMapper;
 using ItSutra.SecondDemo.Game.Dto;
@@ -24,49 +26,34 @@ namespace ItSutra.SecondDemo.Game
         {
             _playerRepository = playerRepository;
         }
-
-
-        /* create a new player
-         *     Annotation
-         *     validation
-         *          if player already exists or not
-         *     formatting
-         *     
-         *     // Automapper 
-         *     new player creation
-         *     
-         *     save new player to db
-         *     
-         *     if / else 
-               
-        */
         public async Task CreatePlayer(PlayerListItem input)
         {
-            if (await _playerRepository.GetAll().AnyAsync(x => x.Email == input.Email))
-                throw new UserFriendlyException("Already Existed");
-             
-            // validation for age verification      
+            if (await _playerRepository.GetAll().AnyAsync(x => x.Email == input.Email && Convert.ToInt32(input.DateOfBirth.Year - DateTime.Today.Year) < 18))
+                throw new UserFriendlyException("Already Existed or Under Age");
+
             await _playerRepository.InsertAsync(ObjectMapper.Map<Player>(input));
         }
 
         public async Task DeletePlayer(int id) => await _playerRepository.DeleteAsync(id);
 
-
-        // search by firstName, lastName, email , phone
         public async Task<ListResultDto<PlayerListItem>> GetAllPlayer(GetPlayerInput input)
         {
-            // query  -  
             var playerLists = await _playerRepository
                .GetAll()
-               .OrderByDescending(o => o.FirstName)
+               .WhereIf(
+                    !input.Filter.IsNullOrEmpty(),
+                    s => s.FirstName.Contains(input.Filter) ||
+                         s.LastName.Contains(input.Filter) ||
+                         s.Email.Contains(input.Filter) ||
+                         s.PhoneNumber.ToString().Contains(input.Filter)
+                )
+               .OrderBy(o => o.CreationTime)
                .ToListAsync();
 
             return new ListResultDto<PlayerListItem>(ObjectMapper.Map<List<PlayerListItem>>(playerLists));
         }
         public async Task<PlayerListItem> GetPlayerById(int id) => ObjectMapper.Map<PlayerListItem>(await _playerRepository.GetAsync(id));
 
-        // Unit of Work ( per request ) SaveChanges
-        //  whatever changes you make will automatically get pushed to the db
         public async Task UpdatePlayer(PlayerListItem input)
         {
             var updatePlayer = await _playerRepository.GetAsync(input.Id);

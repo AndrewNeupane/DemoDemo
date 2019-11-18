@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using Abp.UI;
 using ItSutra.SecondDemo.GameMatches.Dto;
 using ItSutra.SecondDemo.GameModel;
 using Microsoft.EntityFrameworkCore;
@@ -23,49 +22,56 @@ namespace ItSutra.SecondDemo.GameMatches
         {
             await _matchRepository.InsertAsync(ObjectMapper.Map<Match>(input));
         }
-        public async Task<MatchResult> EndMatch(EndMatch input)
+
+        public async Task CreateMove(MovesData input)
         {
-            var winner = await _matchRepository.GetAsync(input.Id);
-            if (input.WinningPlayerId == winner.FirstPlayerId)
-            {
-                winner.FirstPlayer.Win = winner.FirstPlayer.Win + 1;
-                winner.FirstPlayer.Score = winner.FirstPlayer.Score + 1;
+            var match = await _matchRepository.GetAsync(input.MatchId);
+            if(input.PlayerId != match.FirstPlayerId || input.PlayerId != match.SecondPlayerId)
+                throw new UserFriendlyException("Not a Valid Player");
+            
+            match.MatchMoves.Add(new MatchMove { PlayerId = input.PlayerId, Location = input.Location });
 
-                winner.SecondPlayer.Loss = winner.SecondPlayer.Loss + 1;
-
-                await _matchRepository.UpdateAsync(ObjectMapper.Map<Match>(winner));
-
-            }
-            if (input.WinningPlayerId == winner.SecondPlayerId)
-            {
-                winner.SecondPlayer.Win = winner.SecondPlayer.Win + 1;
-                winner.SecondPlayer.Score = winner.SecondPlayer.Score + 1;
-
-                winner.FirstPlayer.Loss = winner.FirstPlayer.Loss + 1;
-
-                await _matchRepository.UpdateAsync(ObjectMapper.Map<Match>(winner));
-
-            }
-            if (input.WinningPlayerId == 0)
-            {
-                winner.FirstPlayer.Ties = winner.FirstPlayer.Ties + 1;
-                winner.FirstPlayer.Score = winner.FirstPlayer.Score = 1 / 2;
-
-                winner.SecondPlayer.Ties = winner.SecondPlayer.Ties + 1;
-                winner.SecondPlayer.Score = winner.SecondPlayer.Score + 1 / 2;
-
-                await _matchRepository.UpdateAsync(ObjectMapper.Map<Match>(winner));
-
-            }
-            return ObjectMapper.Map<MatchResult>(match);
         }
 
+        public async Task EndMatch(EndMatch input)
+        {
+            var match = await _matchRepository.GetAsync(input.Id);
+            if(input.WinningPlayerId == match.FirstPlayerId)
+            {
+                match.FirstPlayer.Win = match.FirstPlayer.Win + 1;
+                match.FirstPlayer.Score = match.FirstPlayer.Score + 1;
+                match.SecondPlayer.Loss = match.SecondPlayer.Loss + 1;
+            }
+            if(input.WinningPlayerId == match.SecondPlayerId)
+            {
+                match.SecondPlayer.Win = match.SecondPlayer.Win + 1;
+                match.SecondPlayer.Score = match.SecondPlayer.Score + 1;
+                match.FirstPlayer.Loss = match.FirstPlayer.Loss + 1;
+            }
+            if(input.WinningPlayerId == 0)
+            {
+                match.FirstPlayer.Ties = match.FirstPlayer.Ties + 1;
+                match.FirstPlayer.Score = match.FirstPlayer.Score + 0.5;
+                match.SecondPlayer.Ties = match.SecondPlayer.Ties + 1;
+                match.SecondPlayer.Score = match.SecondPlayer.Score + 0.5;
+            }
+        }
+
+        public async Task<MatchList> GetMatchById(int id) => ObjectMapper.Map<MatchList>(await _matchRepository.GetAsync(id));
+
+         
         public async Task<ListResultDto<MatchList>> GetMatchList(GetAllMatch input)
         {
             var matchLists = await _matchRepository
                .GetAll()
                .ToListAsync();
             return new ListResultDto<MatchList>(ObjectMapper.Map<List<MatchList>>(matchLists));
-        } 
+        }
+
+        public async Task<MoveList> GetMovesByMatchId(MovesData input)
+        {
+            var match = await _matchRepository.GetAsync(input.MatchId);
+            return ObjectMapper.Map<MoveList>(match.MatchMoves);
+        }
     }
 }

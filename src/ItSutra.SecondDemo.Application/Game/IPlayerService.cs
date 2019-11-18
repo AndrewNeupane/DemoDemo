@@ -16,5 +16,6 @@ namespace ItSutra.SecondDemo.Game
         Task DeletePlayer(int id);
         Task UpdatePlayer(PlayerListItem input);
         Task<PlayerListItem> GetPlayerById(int id);
+        Task<ScoreList> GetAllScore();
     }
 }
