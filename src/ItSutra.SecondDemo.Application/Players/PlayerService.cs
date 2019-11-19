@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
 using Abp.UI;
-using AutoMapper;
-using ItSutra.SecondDemo.Game.Dto;
+using ItSutra.SecondDemo.Players.Dto;
 using ItSutra.SecondDemo.GameModel;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
+using Abp.Collections.Extensions;
 
-namespace ItSutra.SecondDemo.Game
+namespace ItSutra.SecondDemo.Players
 {
     public class PlayerService : SecondDemoAppServiceBase, IPlayerService
     {
@@ -52,6 +51,26 @@ namespace ItSutra.SecondDemo.Game
 
             return new ListResultDto<PlayerListItem>(ObjectMapper.Map<List<PlayerListItem>>(playerLists));
         }
+
+        public async Task<ListResultDto<ScoreList>> GetAllScore()
+        {
+            var scoreList = await _playerRepository
+                .GetAll()
+                .Select(
+                    s => new ScoreList
+                    {
+                        FirstName = s.FirstName,
+                        Win = s.Win,
+                        Loss = s.Loss,
+                        Ties = s.Ties,
+                        Score = s.Score
+                    }
+                )
+                .OrderByDescending(p => p.Score)
+                .ToListAsync();
+            return new ListResultDto<ScoreList>(ObjectMapper.Map<List<ScoreList>>(scoreList));
+        }
+
         public async Task<PlayerListItem> GetPlayerById(int id) => ObjectMapper.Map<PlayerListItem>(await _playerRepository.GetAsync(id));
 
         public async Task UpdatePlayer(PlayerListItem input)

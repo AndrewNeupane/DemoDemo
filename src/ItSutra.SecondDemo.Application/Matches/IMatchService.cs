@@ -1,13 +1,9 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
-using ItSutra.SecondDemo.GameMatches.Dto;
-using ItSutra.SecondDemo.GameModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ItSutra.SecondDemo.Matches.Dto;
 using System.Threading.Tasks;
 
-namespace ItSutra.SecondDemo.GameMatches
+namespace ItSutra.SecondDemo.Matches
 {
     public interface IMatchService : IApplicationService
     {
@@ -16,6 +12,6 @@ namespace ItSutra.SecondDemo.GameMatches
         Task<ListResultDto<MatchList>> GetMatchList(GetAllMatch input);
         Task<MatchList> GetMatchById(int id);
         Task CreateMove(MovesData input);
-        Task<MoveList> GetMovesByMatchId(MovesData input);
+        Task<ListResultDto<MovesData>> GetMovesByMatchId(MoveList input);
     }
 }

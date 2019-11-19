@@ -1,12 +1,9 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
-using ItSutra.SecondDemo.Game.Dto;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ItSutra.SecondDemo.Players.Dto;
 using System.Threading.Tasks;
 
-namespace ItSutra.SecondDemo.Game
+namespace ItSutra.SecondDemo.Players
 {
     public interface IPlayerService : IApplicationService
     {
@@ -16,6 +13,6 @@ namespace ItSutra.SecondDemo.Game
         Task DeletePlayer(int id);
         Task UpdatePlayer(PlayerListItem input);
         Task<PlayerListItem> GetPlayerById(int id);
-        Task<ScoreList> GetAllScore();
+        Task<ListResultDto<ScoreList>> GetAllScore();
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ItSutra.SecondDemo.GameMatches.Dto
+namespace ItSutra.SecondDemo.Matches.Dto
 {
     [AutoMap(typeof(Match))]
     public class EndMatch : EntityDto

@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.UI;
-using ItSutra.SecondDemo.GameMatches.Dto;
+using ItSutra.SecondDemo.Matches.Dto;
 using ItSutra.SecondDemo.GameModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace ItSutra.SecondDemo.GameMatches
+namespace ItSutra.SecondDemo.Matches
 {
     public class MatchService : SecondDemoAppServiceBase, IMatchService
     {
@@ -41,12 +41,14 @@ namespace ItSutra.SecondDemo.GameMatches
                 match.FirstPlayer.Win = match.FirstPlayer.Win + 1;
                 match.FirstPlayer.Score = match.FirstPlayer.Score + 1;
                 match.SecondPlayer.Loss = match.SecondPlayer.Loss + 1;
+                match.WinningPlayerId = match.FirstPlayerId;
             }
             if(input.WinningPlayerId == match.SecondPlayerId)
             {
                 match.SecondPlayer.Win = match.SecondPlayer.Win + 1;
                 match.SecondPlayer.Score = match.SecondPlayer.Score + 1;
                 match.FirstPlayer.Loss = match.FirstPlayer.Loss + 1;
+                match.WinningPlayerId = match.SecondPlayerId;
             }
             if(input.WinningPlayerId == 0)
             {
@@ -68,10 +70,10 @@ namespace ItSutra.SecondDemo.GameMatches
             return new ListResultDto<MatchList>(ObjectMapper.Map<List<MatchList>>(matchLists));
         }
 
-        public async Task<MoveList> GetMovesByMatchId(MovesData input)
+        public async Task<ListResultDto<MovesData>> GetMovesByMatchId(MoveList input)
         {
             var match = await _matchRepository.GetAsync(input.MatchId);
-            return ObjectMapper.Map<MoveList>(match.MatchMoves);
+            return new ListResultDto<MovesData>(ObjectMapper.Map<List<MovesData>>(match.MatchMoves));
         }
     }
 }

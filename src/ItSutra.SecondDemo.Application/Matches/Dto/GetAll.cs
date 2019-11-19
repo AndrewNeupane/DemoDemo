@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ItSutra.SecondDemo.GameMatches.Dto
+namespace ItSutra.SecondDemo.Matches.Dto
 {
     public class GetAllMatch : EntityDto
     {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ItSutra.SecondDemo.GameMatches.Dto
+namespace ItSutra.SecondDemo.Matches.Dto
 {
     [AutoMap(typeof(Match))]
     public class MatchResult : EntityDto

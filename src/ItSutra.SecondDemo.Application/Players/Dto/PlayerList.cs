@@ -6,11 +6,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ItSutra.SecondDemo.Game.Dto
+namespace ItSutra.SecondDemo.Players.Dto
 {
-
-    // while creating or updating don't ask for information that system computes or generates
-    // Date Integrity / Security 
     [AutoMap(typeof(Player))]
     public class PlayerListItem : EntityDto
     {
